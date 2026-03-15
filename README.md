@@ -172,7 +172,7 @@ The setup I’ve described takes a few hours to build and pays back in every spr
 
 If you’re running enterprise software development on Azure DevOps and want to accelerate your team without sacrificing the quality gates that matter, this is the path I’d recommend.
 
-Happy to share the exact command files, settings templates, and CLAUDE.md structure —connect directly.
+Happy to share the exact command files, settings templates, CLAUDE.md, and GEMINI.MD structure —connect directly.
 
 I would love to hear your thoughts in the comments.
 
