@@ -25,8 +25,8 @@
       "Write(./production.config.*)"
     ],
     "additionalDirectories": [
-      "c:\\projects\\SemanticLexiForge\\backend\\repository\\src\\test",
-      "c:\\projects\\SemanticLexiForge\\.gemini"
+      "c:\\projects\\<project_name>\\backend\\repository\\src\\test",
+      "c:\\projects\\<project_name>\\.gemini"
     ],
     "allowedTools": [
       "Read",
