@@ -1,4 +1,4 @@
-# Agentic Software Development for Enterprise-Grade Solution in 4 Simple Steps
+# Agentic Software Development Framework for Enterprise-Grade Solution in 4 Simple Steps
 
 ## First, Let’s Address the Elephant in the Room: Inconsistent Quality of Vibe Coding
 
@@ -45,10 +45,10 @@ The setup is simple, specialized LLM assisted tool for ‘doing’ each critical
 
 - **Agile project management**: Microsoft Azure DevOps Project for user story creation, sprint planning, progress tracking etc.
 - **Primary LLM Agent**: Anthropic Claude for requirement gathering, ideation, and design, build, test, documentations etc.
-- **Pair Programming partner**: Google Gemini for code reviews
-- **SDLC Process Automation**: Microsoft Azure DevOps MCP Server for automating SDLC processes like user story assignment, design, build, test, review, create/review/merge PRs, deploy application etc.
-- **Local IDE**: Microsoft Visual Code
-- **Cloud Service Provider**: Microsoft Azure cloud services to build and deploy application
+- **Pair Programming partner**: Google Gemini for code reviews.
+- **SDLC Process Automation**: Microsoft Azure DevOps MCP Server for automating SDLC processes.
+- **Local IDE**: Microsoft Visual Code for local development
+- **Cloud Service Provider**: Microsoft Azure cloud services to build and deploy application.
 
 Rest of the document contains the detailed steps to setup above tools, stitch them together to start development.
 
@@ -56,7 +56,7 @@ Rest of the document contains the detailed steps to setup above tools, stitch th
 #### Sign up on Azure portal (<https://portal.azure.com>)
   - Check if you eligible for $200 credits for 30 days (<https://azure.microsoft.com/en-us/pricing/purchase-options/azure-account>)
 - Create Personal Access Token (PAT)
-  - Sign in to Azure DevOps: Navigate to your Azure DevOps organization URL (e.g., https://dev.azure.com/{Your\_Organization}) and sign in with your credentials.
+  - Sign in to Azure DevOps: Navigate to your Azure DevOps organization URL (e.g., https://dev.azure.com/{organization_name}) and sign in with your credentials.
   - Go to User Settings: In the top-right corner of the page, click on your profile picture/icon and select User settings from the dropdown menu.
   - Select Personal Access Tokens: In the left navigation pane under the Security section, click on Personal access tokens.
   - Create a New Token: Click the + New Token button.
@@ -68,7 +68,7 @@ Rest of the document contains the detailed steps to setup above tools, stitch th
   - Copy this token and store it securely for future use.
 
 #### Create Azure DevOps Project
-  - Sign in to your organization: Go to your Azure DevOps organization URL (typically https://dev.azure.com/{Your\_Organization}) and sign in with your credentials.
+  - Sign in to your organization: Go to your Azure DevOps organization URL (typically https://dev.azure.com/{organization_name}) and sign in with your credentials.
   - Navigate to the Projects page: Select the Azure DevOps logo (usually in the top-left corner) to open the main Projects page.
   - Select "New project": Click the New project button. If you don't see this button, you may not have the necessary permissions.
   - Enter project details:
@@ -103,7 +103,7 @@ Rest of the document contains the detailed steps to setup above tools, stitch th
     - Azure CLI (<https://learn.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest>)
     - Git ([https://git-scm.com/install](https://git-scm.com/install/))
     - Claude Code CLI (<https://code.claude.com/docs/en/quickstart>)
-    - Google Gemini CLI (Open terminal and run command ‘*npm install -g @google/gemini-cli*’)
+    - Google Gemini CLI (Open terminal and run command `npm install -g @google/gemini-cli`)
     - (Optional) MS Visual Code official extensions for Python, Azure, Git, Claude Code, Gemini Code etc.
   - Verify installations (Open terminal and run following commands)
     - Node.js: `node --version` and `npm --version`
@@ -114,12 +114,12 @@ Rest of the document contains the detailed steps to setup above tools, stitch th
     - Google Gemini CLI: `gemini --version`
 - Set environment variables for Azure PAT, Claude API Key, and Gemini API Key
 - Clone Git repo into new local folder for the project
-  - `git clone https://<organization_name>@dev.azure.com/<organization_name>/<project_name>/_git/<project\_name>`
+  - `git clone https://{organization_name}@dev.azure.com/{organization_name}/{project_name}/_git/{project_name}`
 - Authenticate Azure CLI, Claude Code CLI and Google Gemini CLI
 
 #### Azure Setup:
   - Azure DevOps MCP Server: It gives Claude Code live, bidirectional access to your Azure DevOps organization: work items, Git repositories, pull requests, and pipeline builds. Runs as a local subprocess. PAT never leaves your machine. Register the MCP server using command
-    - `claude mcp add azure-devops --env AZURE_DEVOPS_PAT=<your-PAT> -- npx -y @azure-devops/mcp <YOUR_ORG> -d core work-items repositories pipelines`
+    - `claude mcp add azure-devops --env AZURE_DEVOPS_PAT=<personal_access_token> -- npx -y @azure-devops/mcp <organization_name> -d core work-items repositories pipelines`
   - Create `.mcp.json` at repo root (team-shared, uses `promptString` secret for PAT — no plaintext credentials in Git).
 
 #### Claude Setup:
@@ -153,7 +153,7 @@ The result is a process that is fast, traceable, and auditable — exactly what 
 
 Everything I’ve described is production-grade by design:
 
-- **No secrets in Git** — PAT uses `promptString` in `.``mcp``.json`; `.env` files are deny-listed
+- **No secrets in Git** — PAT uses `promptString` in `.mcp.json`; `.env` files are deny-listed
 - **Audit trail** — every work item state change, every PR comment, every commit message is traceable back to an acceptance criterion
 - **Human gates** — design approval before build, commit message confirmation before push, PR review before merge
 - **CI/CD sovereignty** — Claude monitors your pipeline; it doesn’t bypass it
