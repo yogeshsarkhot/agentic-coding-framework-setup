@@ -1,0 +1,87 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node -e \":*)",
+      "Skill(create-pr)",
+      "Skill(create-pr:*)",
+      "Bash(az repos pr *)",
+      "WebSearch",
+      "WebFetch(domain:www.anthropic.com)",
+      "WebFetch(domain:www.promptingguide.ai)",
+      "WebFetch(domain:promptengineering.org)",
+      "Skill(review-pr)",
+      "Skill(review-pr:*)",
+      "Bash(gh pr:*)",
+      "Bash(az --version)",
+      "Bash(python -c \":*)",
+      "Bash(powershell -Command \":*)",
+      "Bash(npm test:*)"
+    ],
+    "deny": [
+      "Read(.env)",
+      "Read(.env.*)",
+      "Write(.env)",
+      "Write(.env.*)",
+      "Write(./production.config.*)"
+    ],
+    "additionalDirectories": [
+      "c:\\projects\\SemanticLexiForge\\backend\\repository\\src\\test",
+      "c:\\projects\\SemanticLexiForge\\.gemini"
+    ],
+    "allowedTools": [
+      "Read",
+      "Write",
+      "Edit",
+      "Bash(git *)",
+      "Bash(mvn *)",
+      "Bash(npm *)",
+      "Bash(kubectl *)",
+      "Bash(az *)",
+      "Bash(docker *)",
+      "Bash(curl *)",
+      "mcp__azure-devops__*"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write(*.java)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd backend && mvn checkstyle:check -q 2>&1 | tail -5"
+          }
+        ]
+      },
+      {
+        "matcher": "Write(*.ts,*.tsx)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd frontend && npx eslint $file --quiet 2>&1 | tail -5"
+          }
+        ]
+      },
+      {
+        "matcher": "Write(*.tf)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd infra && terraform validate 2>&1 | tail -5"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash(git commit *)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "git diff --cached --name-only | grep -E '\\.(env|pem|key|p12|pfx)$' && echo 'BLOCKED: sensitive file staged' && exit 1 || exit 0"
+          }
+        ]
+      }
+    ]
+  }
+}
