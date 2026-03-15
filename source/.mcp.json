@@ -1,0 +1,18 @@
+{
+  "inputs": [
+    {
+      "id": "ado_pat",
+      "type": "promptString",
+      "description": "Azure DevOps PAT (from User Settings > Personal Access Tokens)",
+      "secret": true
+    }
+  ],
+  "servers": {
+    "azure-devops": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@azure-devops/mcp", "<organization_name>", "-d",
+               "core", "work-items", "repositories", "pipelines"]
+    }
+  }
+}
